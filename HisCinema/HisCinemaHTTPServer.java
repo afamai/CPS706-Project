@@ -4,7 +4,7 @@ import config.MainConfig;
 import java.io.*;
 import java.net.*;
 
-public class HisCinemaHTTPServer {
+public class HisCinemaHttpServer {
   public static InetAddress ip;
   public static int port;
   public static InetSocketAddress socket;
