@@ -1,5 +1,8 @@
 package HerCDN;
 import com.sun.net.httpserver.*;
+
+import config.MainConfig;
+
 import java.io.*;
 import java.net.*;
 public class HerCDNHTTPServer {
@@ -7,8 +10,8 @@ public class HerCDNHTTPServer {
     public static int port;
     public static InetSocketAddress socket;
     public static void main(String[] args) throws Exception {
-        ip =  MainConfiguration.herCDNIP();
-        port = MainConfiguration.herCDNServerPort();
+        ip =  MainConfig.getIP("HER_CDN_SERVER_IP");
+        port = MainConfig.getPort("HER_CDN_SERVER_PORT");
         if(ip == null){
         socket = new InetSocketAddress(port);
         }
@@ -22,6 +25,7 @@ public class HerCDNHTTPServer {
         server.createContext("/F4", new MyHandler());
         server.setExecutor(null); 
         server.start();
+        System.out.println("HERCDN WEB SERVER");
         System.out.println("Listening for client connections on" + socket.toString() + "...");
     }
 	

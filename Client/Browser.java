@@ -1,5 +1,7 @@
 package client;
 import DNS.*;
+import config.MainConfig;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -28,9 +30,9 @@ public class Browser extends JFrame{
 
   public Browser() throws Exception{
     browserRecordTable = new ArrayList<Record>();
-    browserRecordTable.add(new Record(new Name("hiscinema.com"), "127.0.0.5", DNS.Type.A));
-    InetAddress localDNS = InetAddress.getByName(MainConfiguration.localdnsIP());
-    int dnsPort = MainConfiguration.udpPort();
+    browserRecordTable.add(new Record(new Name("hiscinema.com"), MainConfig.getIP("HIS_CINEMA_SERVER_IP").toString(), DNS.Type.A));
+    InetAddress localDNS = MainConfig.getIP("LOCAL_DNS_IP");
+    int dnsPort = MainConfig.getPort("LOCAL_DNS_PORT");
     dnsClient = new DNSClient(localDNS, dnsPort);
     panel = new JPanel();
 //      browserRecordTable = new ArrayList<Record>();
@@ -77,7 +79,7 @@ public class Browser extends JFrame{
     for(int i = 0; i < browserRecordTable.size(); i++){
       Record record = browserRecordTable.get(i);
       if(record.getName().toString().equals(url)){
-        hisCinemaResolvedIP = record.getValue();
+        hisCinemaResolvedIP = record.getValue().substring(1);
       }
     }
 
@@ -91,9 +93,9 @@ public class Browser extends JFrame{
       return;
     }
     System.out.println("Contacting local DNS using UDP to resolve: "+url);
-    System.out.println("IP: " + hisCinemaResolvedIP + " " + MainConfiguration.hisCinemaServerPort());
+    System.out.println("IP: " + hisCinemaResolvedIP + " " + MainConfig.getPort("HIS_CINEMA_SERVER_PORT"));
 
-    URL urlLink = new URL("http://"+hisCinemaResolvedIP+":"+MainConfiguration.hisCinemaServerPort()+"/");
+    URL urlLink = new URL("http://"+hisCinemaResolvedIP+":"+MainConfig.getPort("HIS_CINEMA_SERVER_PORT"));
     HttpURLConnection con = (HttpURLConnection)urlLink.openConnection();
     System.out.println(urlLink.toString());
     con.setRequestMethod("GET");
@@ -152,13 +154,12 @@ public class Browser extends JFrame{
     try
     {
       String hostname = url.substring(7,url.length()-3);
-      System.out.println(hostname);
       InetAddress ip = dnsClient.resolve(hostname, DNS.Type.V);
       String resolvedHerCdnIp = ip.toString().substring(1);//Replace this with the result from DNS lookup
-      System.out.println(ip.toString());
       String fileRequested = url.substring(url.length()-2,url.length());
-      URL urlLink = new URL("http://"+resolvedHerCdnIp+":"+MainConfiguration.herCinemaServerPort()
+      URL urlLink = new URL("http://"+resolvedHerCdnIp+":"+MainConfig.getPort("HER_CDN_SERVER_PORT")
         +"/"+fileRequested);
+      System.out.println(urlLink.toString());
       HttpURLConnection con = (HttpURLConnection)urlLink.openConnection();
       con.setRequestMethod("GET");
       

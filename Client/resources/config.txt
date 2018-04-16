@@ -1,4 +1,0 @@
-HisCinemaServerPort = 40470
-HerCinemaServerPort = 40472
-localdnsIP = 127.0.0.1
-udpPort = 40471

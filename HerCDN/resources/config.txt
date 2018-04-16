@@ -1,2 +1,0 @@
-HerCDNServerPort = 40472
-HerCDNIP = 127.0.0.6

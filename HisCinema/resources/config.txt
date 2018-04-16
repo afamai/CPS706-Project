@@ -1,2 +1,0 @@
-HisCinemaServerPort = 40470
-HisCinemaIP = 127.0.0.5

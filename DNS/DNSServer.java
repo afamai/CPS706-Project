@@ -128,7 +128,7 @@ public class DNSServer{
                         System.out.println("MATCH!");
                         break;
                     }
-                    System.out.printf("\n\n");
+                    System.out.printf("\n");
                 }
             }
         }

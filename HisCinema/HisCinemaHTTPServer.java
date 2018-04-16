@@ -1,14 +1,16 @@
 package HisCinema;
 import com.sun.net.httpserver.*;
+import config.MainConfig;
 import java.io.*;
 import java.net.*;
+
 public class HisCinemaHttpServer {
   public static InetAddress ip;
   public static int port;
   public static InetSocketAddress socket;
   public static void main(String[] args) throws Exception {
-        ip =  MainConfiguration.hisCinemaIP();
-        port = MainConfiguration.hisCinemaServerPort();
+        ip =  MainConfig.getIP("HIS_CINEMA_SERVER_IP");
+        port = MainConfig.getPort("HIS_CINEMA_SERVER_PORT");
         if(ip == null){
           socket = new InetSocketAddress(port);
         }
@@ -19,6 +21,7 @@ public class HisCinemaHttpServer {
         server.createContext("/", new MyHandler());
         server.setExecutor(null); // creates a default executor
         server.start();
+        System.out.println("HISCINEMA WEB SERVER");
         System.out.println("Listening for client connections on " + socket.toString() + "...");
     }
   
